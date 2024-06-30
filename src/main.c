@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <cglm/cglm.h>
 #include "MiniFB.h"
 
 int main() {
@@ -37,6 +38,10 @@ int main() {
     // Clean up
     free(buffer);
     mfb_close(window);
+
+    // Test for cglm submodule
+    vec3 v = { 1.0f, 2.0f, 3.0f };
+    glm_vec3_normalize(v);
 
     return 0;
 }

@@ -11,14 +11,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# Add the minifb submodule as an external library
-add_subdirectory(dep/minifb)
-
-# Add your main executable target
+# Add executable target
 add_executable(${TARGET_NAME} src/main.c)
 
-# Include the minifb headers
-target_include_directories(${TARGET_NAME} PRIVATE dep/minifb/include)
+# Add the minifb submodule as an external library
+add_subdirectory(dep/minifb)
+add_subdirectory(dep/cglm)
 
-# Link minifb library to your executable
+# Include submod headers and link libraries to executable
+target_include_directories(${TARGET_NAME} PRIVATE dep/minifb/include)
+target_include_directories(${TARGET_NAME} PRIVATE dep/cglm/include)
 target_link_libraries(${TARGET_NAME} PRIVATE minifb)
+target_link_libraries(${TARGET_NAME} PRIVATE cglm)

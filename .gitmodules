@@ -1,3 +1,6 @@
 [submodule "dep/minifb"]
 	path = dep/minifb
 	url = https://github.com/emoon/minifb.git
+[submodule "dep/cglm"]
+	path = dep/cglm
+	url = https://github.com/recp/cglm.git
