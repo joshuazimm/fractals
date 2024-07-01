@@ -34,6 +34,11 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 add_subdirectory(dep/minifb)
 add_subdirectory(dep/cglm)
 
+set_property(TARGET minifb PROPERTY FOLDER "Libs")
+set_property(TARGET timer PROPERTY FOLDER "Libs")
+set_property(TARGET cglm PROPERTY FOLDER "Libs")
+set_property(TARGET fullscreen PROPERTY FOLDER "Libs")
+
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
     minifb
