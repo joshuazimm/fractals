@@ -1,43 +1,36 @@
 #include <stdlib.h>
-#include <stdio.h>
-#include <cglm/cglm.h>
-#include "MiniFB.h"
+#include "window.h"
 
 int main() {
-    // Window dimensions
-    int width = 800;
-    int height = 600;
+    // Program constants
+    const int width = 800;
+    const int height = 600;
+    const int BLACK = 0x000000;
+    const int RED = 0xFFFF00;
 
-    // Create window
-    struct mfb_window* window = mfb_open_ex("Fractal", width, height, WF_RESIZABLE);
-    if (!window) {
-        return 1; // Could not create window
-    }
+    // Initialize window
+    window* window = window_init("Fractal", width, height);
+    if (!window) { return 1; } // Error creating window
 
     // Allocate buffer for pixel data
-    uint32_t* buffer = (uint32_t*)malloc(width * height * sizeof(uint32_t));
+    uint32_t* buffer = buffer_alloc(width, height);
     if (!buffer) {
-        mfb_close(window);
+        window_cleanup(window, buffer);
         return 1; // Could not allocate buffer
     }
 
-    // Main loop
-    while (mfb_wait_sync(window)) {
-        // Fill buffer with color (example: red)
-        for (int i = 0; i < width * height; ++i) {
-            buffer[i] = 0xFF0000; // Red color
-        }
+    // Render loop
+    while (window_wait_sync(window)) {
+        // Fill buffer with color
+        fill_buffer(buffer, width, height, BLACK); // Black
 
-        // Draw buffer to window
-        int state = mfb_update_ex(window, buffer, width, height);
-        if (state < 0) {
-            break; // Window closed or an error occurred
-        }
+        // Set a pixel using cglm vec2
+        vec2 position = { 400.0f, 300.0f }; // Center of the window
+        set_pixel(buffer, width, height, position, RED, window); // Red
     }
 
     // Clean up
-    free(buffer);
-    mfb_close(window);
+    window_cleanup(window, buffer);
 
     // Test for cglm submodule
     vec3 v = { 1.0f, 2.0f, 3.0f };
