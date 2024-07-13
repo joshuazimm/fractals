@@ -23,9 +23,21 @@ endforeach()
 # Find all .c and .h files in src directory
 file(GLOB_RECURSE SRC_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 file(GLOB_RECURSE HDR_FILES "${CMAKE_SOURCE_DIR}/src/*.h")
+file(GLOB_RECURSE GLSL_FILES "${CMAKE_SOURCE_DIR}/src/shaders/*.glsl")
 
 # Add executable
-add_executable(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES})
+add_executable(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES} ${GLSL_FILES})
+
+# Set properties for GLSL files
+foreach(GLSL_FILE ${GLSL_FILES})
+    source_group("Shaders\\" FILES ${GLSL_FILE})
+endforeach()
+
+# Copy GLSL files to the build directory
+foreach(GLSL_FILE ${GLSL_FILES})
+    get_filename_component(GLSL_FILE_NAME ${GLSL_FILE} NAME)
+    configure_file(${GLSL_FILE} ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${GLSL_FILE_NAME} COPYONLY)
+endforeach()
 
 # Include directories
 target_include_directories(${PROJECT_NAME} PRIVATE
