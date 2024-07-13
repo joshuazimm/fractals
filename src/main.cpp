@@ -1,18 +1,19 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <iostream>
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <cglm/cglm.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 // Callback function for handling GLFW errors
 void glfw_error_callback(int error, const char* description) {
-    fprintf(stderr, "Error: %s\n", description);
+    std::cerr << "Error: " << description << std::endl;
 }
 
-int main(void) {
+int main() {
     // Initialize GLFW
     if (!glfwInit()) {
-        fprintf(stderr, "Failed to initialize GLFW\n");
+        std::cerr << "Failed to initialize GLFW" << std::endl;
         return -1;
     }
 
@@ -20,9 +21,9 @@ int main(void) {
     glfwSetErrorCallback(glfw_error_callback);
 
     // Create a GLFW windowed mode window and its OpenGL context
-    GLFWwindow* window = glfwCreateWindow(640, 480, "OpenGL Test", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(640, 480, "OpenGL Test", nullptr, nullptr);
     if (!window) {
-        fprintf(stderr, "Failed to create GLFW window\n");
+        std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
         return -1;
     }
@@ -34,13 +35,13 @@ int main(void) {
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
     if (err != GLEW_OK) {
-        fprintf(stderr, "Failed to initialize GLEW: %s\n", glewGetErrorString(err));
+        std::cerr << "Failed to initialize GLEW: " << glewGetErrorString(err) << std::endl;
         return -1;
     }
 
     // Print OpenGL and GLSL versions
-    printf("OpenGL version: %s\n", glGetString(GL_VERSION));
-    printf("GLSL version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+    std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+    std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
     // Set up a simple triangle
     GLfloat vertices[] = {
@@ -68,6 +69,18 @@ int main(void) {
     while (!glfwWindowShouldClose(window)) {
         // Render here
         glClear(GL_COLOR_BUFFER_BIT);
+
+        // Set up the transformation matrices
+        glm::mat4 model = glm::mat4(1.0f);
+        glm::mat4 view = glm::mat4(1.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(45.0f), 640.0f / 480.0f, 0.1f, 100.0f);
+
+        glm::mat4 mvp = projection * view * model;
+
+        // Pass the mvp matrix to the shader (assuming a shader program is already created and in use)
+        GLuint shaderProgram = 0; // Replace with your actual shader program ID
+        GLint mvpLocation = glGetUniformLocation(shaderProgram, "MVP");
+        glUniformMatrix4fv(mvpLocation, 1, GL_FALSE, glm::value_ptr(mvp));
 
         // Draw the triangle
         glBindVertexArray(VAO);

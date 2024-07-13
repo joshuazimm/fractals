@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.28)
 project(Fractal)
 
+# Specify the C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
 # Set the output directories for different build types
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -17,7 +21,7 @@ foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
 endforeach()
 
 # Find all .c and .h files in src directory
-file(GLOB_RECURSE SRC_FILES "${CMAKE_SOURCE_DIR}/src/*.c")
+file(GLOB_RECURSE SRC_FILES "${CMAKE_SOURCE_DIR}/src/*.cpp")
 file(GLOB_RECURSE HDR_FILES "${CMAKE_SOURCE_DIR}/src/*.h")
 
 # Add executable
@@ -36,6 +40,7 @@ add_subdirectory(dep/glfw)
 add_subdirectory(dep/glew)
 add_subdirectory(dep/glm)
 
+set_property(TARGET glm PROPERTY FOLDER "Libs")
 set_property(TARGET libglew_shared PROPERTY FOLDER "Libs")
 set_property(TARGET libglew_static PROPERTY FOLDER "Libs")
 set_property(TARGET glfw PROPERTY FOLDER "Libs")
