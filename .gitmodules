@@ -1,6 +1,9 @@
-[submodule "dep/minifb"]
-	path = dep/minifb
-	url = https://github.com/emoon/minifb.git
 [submodule "dep/cglm"]
 	path = dep/cglm
 	url = https://github.com/recp/cglm.git
+[submodule "dep/glfw"]
+	path = dep/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "dep/glew"]
+	path = dep/glew
+	url = https://github.com/nigels-com/glew.git
