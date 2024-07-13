@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.28)
 project(Fractal)
 
 # Set the output directories for different build types
@@ -31,13 +31,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/dep/cglm/include
 )
 
-# Set GLEW to build as a static library
-set(BUILD_SHARED_LIBS OFF CACHE BOOL " " FORCE)
-set(BUILD_UTILS OFF CACHE BOOL " " FORCE)
-
 # Dependencies
 add_subdirectory(dep/glfw)
-add_subdirectory(dep/glew/build/cmake)
+add_subdirectory(dep/glew)
 add_subdirectory(dep/cglm)
 
 set_property(TARGET cglm PROPERTY FOLDER "Libs")
@@ -45,14 +41,6 @@ set_property(TARGET cglm PROPERTY FOLDER "Libs")
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
     glfw
-    libglew_static  # Adjust this if the library name is different
+    libglew_static
     cglm
 )
-
-# Define GLEW_STATIC
-target_compile_definitions(${PROJECT_NAME} PRIVATE GLEW_STATIC)
-
-# Additional system libraries on Windows
-if (WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE opengl32)
-endif()
