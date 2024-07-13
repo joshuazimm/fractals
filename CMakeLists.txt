@@ -26,20 +26,33 @@ add_executable(${PROJECT_NAME} ${SRC_FILES} ${HDR_FILES})
 # Include directories
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
-    ${CMAKE_SOURCE_DIR}/dep/minifb/include
+    ${CMAKE_SOURCE_DIR}/dep/glfw/include
+    ${CMAKE_SOURCE_DIR}/dep/glew/include
     ${CMAKE_SOURCE_DIR}/dep/cglm/include
 )
 
+# Set GLEW to build as a static library
+set(BUILD_SHARED_LIBS OFF CACHE BOOL " " FORCE)
+set(BUILD_UTILS OFF CACHE BOOL " " FORCE)
+
 # Dependencies
-#add_subdirectory(dep/minifb)
+add_subdirectory(dep/glfw)
+add_subdirectory(dep/glew/build/cmake)
 add_subdirectory(dep/cglm)
 
-#set_property(TARGET minifb PROPERTY FOLDER "Libs")
-set_property(TARGET timer PROPERTY FOLDER "Libs")
 set_property(TARGET cglm PROPERTY FOLDER "Libs")
-set_property(TARGET fullscreen PROPERTY FOLDER "Libs")
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
+    glfw
+    libglew_static  # Adjust this if the library name is different
     cglm
 )
+
+# Define GLEW_STATIC
+target_compile_definitions(${PROJECT_NAME} PRIVATE GLEW_STATIC)
+
+# Additional system libraries on Windows
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE opengl32)
+endif()
