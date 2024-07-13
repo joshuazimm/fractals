@@ -28,19 +28,23 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${CMAKE_SOURCE_DIR}/src
     ${CMAKE_SOURCE_DIR}/dep/glfw/include
     ${CMAKE_SOURCE_DIR}/dep/glew/include
-    ${CMAKE_SOURCE_DIR}/dep/cglm/include
+    ${CMAKE_SOURCE_DIR}/dep/glm/include
 )
 
 # Dependencies
 add_subdirectory(dep/glfw)
 add_subdirectory(dep/glew)
-add_subdirectory(dep/cglm)
+add_subdirectory(dep/glm)
 
-set_property(TARGET cglm PROPERTY FOLDER "Libs")
+set_property(TARGET libglew_shared PROPERTY FOLDER "Libs")
+set_property(TARGET libglew_static PROPERTY FOLDER "Libs")
+set_property(TARGET glfw PROPERTY FOLDER "Libs")
+set_property(TARGET uninstall PROPERTY FOLDER "Libs")
+set_property(TARGET update_mappings PROPERTY FOLDER "Libs")
 
 # Link libraries
 target_link_libraries(${PROJECT_NAME} PRIVATE
     glfw
     libglew_static
-    cglm
+    glm
 )

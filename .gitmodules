@@ -1,9 +1,9 @@
-[submodule "dep/cglm"]
-	path = dep/cglm
-	url = https://github.com/recp/cglm.git
 [submodule "dep/glfw"]
 	path = dep/glfw
 	url = https://github.com/glfw/glfw.git
 [submodule "dep/glew"]
 	path = dep/glew
 	url = https://github.com/Perlmint/glew-cmake.git
+[submodule "dep/glm"]
+	path = dep/glm
+	url = https://github.com/g-truc/glm.git
