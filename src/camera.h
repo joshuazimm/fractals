@@ -20,6 +20,12 @@ public:
     void translate(const glm::vec3& offset);
     void rotate(float yaw, float pitch, float roll);
 
+    // Movement functions
+    void moveForward(float deltaTime);
+    void moveBackward(float deltaTime);
+    void moveLeft(float deltaTime);
+    void moveRight(float deltaTime);
+
 private:
     glm::vec3 position;
     float yaw;

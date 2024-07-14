@@ -37,6 +37,26 @@ void Camera::rotate(float yaw, float pitch, float roll) {
     updateViewMatrix();
 }
 
+void Camera::moveForward(float deltaTime) {
+    position += getFront() * deltaTime;
+    updateViewMatrix();
+}
+
+void Camera::moveBackward(float deltaTime) {
+    position -= getFront() * deltaTime;
+    updateViewMatrix();
+}
+
+void Camera::moveLeft(float deltaTime) {
+    position -= glm::normalize(glm::cross(getFront(), glm::vec3(0.0f, 1.0f, 0.0f))) * deltaTime;
+    updateViewMatrix();
+}
+
+void Camera::moveRight(float deltaTime) {
+    position += glm::normalize(glm::cross(getFront(), glm::vec3(0.0f, 1.0f, 0.0f))) * deltaTime;
+    updateViewMatrix();
+}
+
 void Camera::updateViewMatrix() {
     // Calculate new orientation vectors
     glm::vec3 front = getFront();
